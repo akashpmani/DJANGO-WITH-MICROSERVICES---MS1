@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432
+    restart: always
+  web:
+    build: ./puddle
+    volumes:
+      - .:/puddle
+    ports:
+      - 8000:8000
+    image: puddle:django
+    container_name: PUDDLE
+    command: bash -c "python ./puddle/manage.py makemigrations && python ./puddle/manage.py migrate && python ./puddle/manage.py runserver 0.0.0.0:8000"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+  puddle_admin:
+    build: ./puddle_admin
+    volumes:
+      - .:/puddle_admin
+    ports:
+      - 8001:8001
+    image: puddle_admin:django
+    container_name: PUDDLE_ADMIN
+    command: bash -c "python ./puddle_admin/manage.py makemigrations && python ./puddle_admin/manage.py migrate && python ./puddle_admin/manage.py runserver 0.0.0.0:8001"
+    environment:
+      - POSTGRES_NAME=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - db
+ 

@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'test.css' %}" />
+</head>
+<body>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+<form>
+	 <ul>
+			<li class="full title"><h2>Manage Users</h2></li>
+			<li class="full break"><hr></li>
+	</ul>
+</form>
+
+<ul class="site-width">
+  {% for user in users %}
+  <li class="grey"> 
+	<span> {{user.username}} </span>
+	<div>
+		<span> <i class="far fa-edit"></i> </span>
+		<span>  <i class="fa fa-trash"></i> </span>
+	</div>
+</li>{% endfor %}
+</ul>
+</body>
+</html>
